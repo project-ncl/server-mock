@@ -24,7 +24,9 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
+import org.jboss.pnc.servermock.servlet.DelayedResponse;
 import org.jboss.pnc.servermock.servlet.GetWhatYouWant;
+import org.jboss.pnc.servermock.servlet.MockExecuteBuild;
 import org.jboss.pnc.servermock.servlet.Welcome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +75,11 @@ public class BootstrapUndertow {
                         servlet("WelcomeServlet", Welcome.class)
                                 .addMapping("/"),
                         servlet("GetWhatYouWant", GetWhatYouWant.class)
-                                .addMapping("/get-what-you-want"));
+                                .addMapping("/get-what-you-want/*"),
+                        servlet("MockExecuteBuild", MockExecuteBuild.class)
+                                .addMapping("/pnc-rest/build-tasks/execute-build"),
+                        servlet("DelayedResponse", DelayedResponse.class)
+                                .addMappings("/pnc-rest/bpm/*", "/pnc-rest/build-tasks/*"));
 
         DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
         manager.deploy();

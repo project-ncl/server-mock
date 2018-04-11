@@ -30,28 +30,23 @@ public class CallbackProcessor {
 
     ScheduledExecutorService executorService;
 
-    private CallbackProcessor(int threadPoolSize) {
-        executorService = Executors.newScheduledThreadPool(threadPoolSize);
-    }
-
-    public static void configure(int threadPoolSize) {
-        CallbackProcessor.instance(threadPoolSize);
+    private CallbackProcessor() {
+        String threadPoolSize = System.getProperty("threadPoolSize", "20");
+        int threads = Integer.parseInt(threadPoolSize);
+        executorService = Executors.newScheduledThreadPool(threads);
     }
 
     public static CallbackProcessor instance() {
-        return instance(20);
+        return instance.computeIfAbsent("instance", (k) -> new CallbackProcessor());
     }
 
-    public static CallbackProcessor instance(int threadPoolSize) {
-        return instance.computeIfAbsent("instance", (k) -> new CallbackProcessor(threadPoolSize));
+    public void process(String callbackUrl, String callbackData, long callbackDelayMillis) throws Exception {
+        instance().executorService.schedule(() -> request(callbackUrl, callbackData), callbackDelayMillis, TimeUnit.MILLISECONDS);
     }
 
-    public void process(String callbackUrl, String callbackData, String callbackDelayMillis) throws Exception {
-        long delay = 0;
-        if (callbackDelayMillis != null) {
-            delay = Long.parseLong(callbackDelayMillis);
-        }
-        instance().executorService.schedule(() -> request(callbackUrl, callbackData), delay, TimeUnit.MILLISECONDS);
+
+    public void process(HttpPost request, long callbackDelayMillis) {
+        instance().executorService.schedule(() -> request, callbackDelayMillis, TimeUnit.MILLISECONDS);
     }
 
     private void request(String callbackUrl, String callbackData) throws RuntimeException {

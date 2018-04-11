@@ -35,14 +35,11 @@ public class GetWhatYouWant extends HttpServlet {
     private static Logger log = LoggerFactory.getLogger(GetWhatYouWant.class);
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("GetWhatYouWant servlet requested.");
 
-        String threadPoolSize = request.getParameter("threadPoolSize");
-        initExecutor(threadPoolSize);
-
         try {
-            processGet(request, response);
+            processRequest(request, response);
         } catch (Exception e) {
             log.error("Hey, you need to fix something.", e);
             response.sendError(500, e.getMessage());
@@ -50,14 +47,7 @@ public class GetWhatYouWant extends HttpServlet {
 
     }
 
-    private void initExecutor(String threadPoolSize) {
-        if (threadPoolSize != null) {
-            int threads = Integer.parseInt(threadPoolSize);
-            CallbackProcessor.configure(threads);
-        }
-    }
-
-    private void processGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String callbackUrl = request.getParameter("callbackUrl");
         String callbackData = request.getParameter("callbackData");
@@ -67,7 +57,11 @@ public class GetWhatYouWant extends HttpServlet {
         String responseDelayMillis = request.getParameter("responseDelayMillis");
 
         if (callbackUrl != null) {
-            CallbackProcessor.instance().process(callbackUrl, callbackData, callbackDelayMillis);
+            long delayMillis = 0;
+            if (callbackDelayMillis != null) {
+                delayMillis = Long.parseLong(callbackDelayMillis);
+            }
+            CallbackProcessor.instance().process(callbackUrl, callbackData, delayMillis);
         }
 
         if (responseDelayMillis != null) {

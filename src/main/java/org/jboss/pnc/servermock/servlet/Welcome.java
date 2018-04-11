@@ -40,11 +40,10 @@ public class Welcome extends HttpServlet {
         log.debug("Welcome servlet requested.");
         PrintWriter out = response.getWriter();
         out.print("Welcome to the Machine!");
-        out.print("\n\n You can call /get-what-you-want with this parameters: "
+        out.print("\n\n You can call a generic /get-what-you-want endpoint with this parameters: "
                 + "callbackUrl, callbackData, callbackDelayMillis, "
-                + "responseData, responseDelayMillis, "
-                + "threadPoolSize."
-                + "I guess it's clear what they do, otherwise you know where to look ;)."
+                + "responseData, responseDelayMillis."
+                + "\n Check out the sources for other more specific endpoints."
                 + "\n\nExample url: http://localhost:8080/get-what-you-want?responseData=Hi!&callbackUrl=http://localhost:8080/&callbackDelayMillis=5000");
         out.close();
     }
