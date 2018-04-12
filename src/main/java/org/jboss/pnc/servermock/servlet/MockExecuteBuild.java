@@ -37,7 +37,7 @@ public class MockExecuteBuild extends HttpServlet {
         super.init(config);
 
         responseDelayMillis = Configuration.get("responseDelayMillis");
-        callbackDelayMillis = Configuration.get("callbackDelayMillis");
+        callbackDelayMillis = Configuration.get("callbackDelayMillis", "0");
 
         bpmUsername = Configuration.get("bpmUsername");
         bpmPass = Configuration.get("bpmPass");
