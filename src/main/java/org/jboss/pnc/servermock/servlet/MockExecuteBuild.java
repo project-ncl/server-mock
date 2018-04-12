@@ -6,6 +6,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.jboss.pnc.servermock.Configuration;
+import org.jboss.pnc.servermock.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,7 @@ public class MockExecuteBuild extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("MockExecuteBuild servlet requested.");
+        log.debug("MockExecuteBuild servlet requested: {}", Utils.getRequestString(request));
 
         try {
             processRequest(request, response);

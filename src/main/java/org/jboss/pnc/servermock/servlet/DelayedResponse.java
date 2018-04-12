@@ -1,6 +1,7 @@
 package org.jboss.pnc.servermock.servlet;
 
 import org.jboss.pnc.servermock.Configuration;
+import org.jboss.pnc.servermock.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ public class DelayedResponse extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("DelayedResponse servlet requested.");
+        log.debug("DelayedResponse servlet requested: {}", Utils.getRequestString(request));
         if (responseDelayMillis != null) {
             try {
                 Thread.sleep(Integer.parseInt(responseDelayMillis));

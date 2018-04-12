@@ -18,6 +18,7 @@
 
 package org.jboss.pnc.servermock.servlet;
 
+import org.jboss.pnc.servermock.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,7 @@ public class GetWhatYouWant extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("GetWhatYouWant servlet requested.");
+        log.debug("GetWhatYouWant servlet requested: {}", Utils.getRequestString(request));
 
         try {
             processRequest(request, response);
