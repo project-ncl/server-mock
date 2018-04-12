@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class Main {
     private static Logger logger = LoggerFactory.getLogger(Main.class);
 
-    private static final String DEFAULT_HOST = "localhost";
+    private static final String DEFAULT_HOST = "0.0.0.0";
     private static final int DEFAULT_PORT = 8080;
 
     public static void main(String[] args) throws Exception {
