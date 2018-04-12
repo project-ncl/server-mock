@@ -13,6 +13,7 @@ import org.jboss.pnc.servermock.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -47,7 +48,16 @@ public class CallbackProcessor {
 
 
     public void process(HttpPost request, long callbackDelayMillis) {
-        instance().executorService.schedule(() -> request, callbackDelayMillis, TimeUnit.MILLISECONDS);
+        String callbackUrl = request.getURI().toString();
+        instance().executorService.schedule(() -> {
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            try {
+                String responseBody = httpclient.execute(request, getStringResponseHandler(callbackUrl));
+                log.info("Callback response for " + callbackUrl + " received: " + responseBody);
+            } catch (IOException e) {
+                throw new RuntimeException("Cannot execute callback.", e);
+            }
+        }, callbackDelayMillis, TimeUnit.MILLISECONDS);
     }
 
     private void request(String callbackUrl, String callbackData) throws RuntimeException {
@@ -81,5 +91,4 @@ public class CallbackProcessor {
             }
         };
     }
-
 }
