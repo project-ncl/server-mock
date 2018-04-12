@@ -1,5 +1,6 @@
 package org.jboss.pnc.servermock.servlet;
 
+import org.jboss.pnc.servermock.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ public class DelayedResponse extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        responseDelayMillis = System.getProperty("responseDelayMillis");
+        responseDelayMillis = Configuration.get("responseDelayMillis");
     }
 
     @Override

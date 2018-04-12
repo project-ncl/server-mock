@@ -9,6 +9,7 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.jboss.pnc.servermock.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,7 @@ public class CallbackProcessor {
     ScheduledExecutorService executorService;
 
     private CallbackProcessor() {
-        String threadPoolSize = System.getProperty("threadPoolSize", "20");
+        String threadPoolSize = Configuration.get("threadPoolSize", "20");
         int threads = Integer.parseInt(threadPoolSize);
         executorService = Executors.newScheduledThreadPool(threads);
     }

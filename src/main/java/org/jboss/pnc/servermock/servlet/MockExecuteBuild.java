@@ -5,6 +5,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
+import org.jboss.pnc.servermock.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,11 +35,11 @@ public class MockExecuteBuild extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
-        responseDelayMillis = System.getProperty("responseDelayMillis");
-        callbackDelayMillis = System.getProperty("callbackDelayMillis");
+        responseDelayMillis = Configuration.get("responseDelayMillis");
+        callbackDelayMillis = Configuration.get("callbackDelayMillis");
 
-        bpmUsername = System.getProperty("bpmUsername");
-        bpmPass = System.getProperty("bpmPass");
+        bpmUsername = Configuration.get("bpmUsername");
+        bpmPass = Configuration.get("bpmPass");
     }
 
     @Override
