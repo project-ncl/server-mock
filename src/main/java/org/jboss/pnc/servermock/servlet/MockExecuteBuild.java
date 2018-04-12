@@ -45,7 +45,8 @@ public class MockExecuteBuild extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("MockExecuteBuild servlet requested: {}", Utils.getRequestString(request));
+        log.info("MockExecuteBuild servlet requested: {}", Utils.getRequestString(request));
+        Utils.logRawRequest(request, log);
 
         try {
             processRequest(request, response);

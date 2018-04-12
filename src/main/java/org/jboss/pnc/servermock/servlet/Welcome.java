@@ -37,7 +37,7 @@ public class Welcome extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("Welcome servlet requested.");
+        log.info("Welcome servlet requested.");
         PrintWriter out = response.getWriter();
         out.print("Welcome to the Machine!");
         out.print("\n\n You can call a generic /get-what-you-want endpoint with this parameters: "
