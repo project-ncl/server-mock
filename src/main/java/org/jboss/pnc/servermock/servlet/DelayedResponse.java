@@ -29,7 +29,7 @@ public class DelayedResponse extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("DelayedResponse servlet requested: {}", Utils.getRequestString(request));
-        Utils.logRawRequest(request, log);
+        Utils.logAllParameters(request, log);
 
         if (responseDelayMillis != null) {
             try {

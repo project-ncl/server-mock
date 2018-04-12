@@ -46,7 +46,7 @@ public class MockExecuteBuild extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("MockExecuteBuild servlet requested: {}", Utils.getRequestString(request));
-        Utils.logRawRequest(request, log);
+        Utils.logAllParameters(request, log);
 
         try {
             processRequest(request, response);
@@ -57,7 +57,6 @@ public class MockExecuteBuild extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         String callbackUrl = request.getParameter("callbackUrl");
 
         if (callbackUrl != null) {

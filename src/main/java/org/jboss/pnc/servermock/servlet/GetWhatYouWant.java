@@ -38,7 +38,7 @@ public class GetWhatYouWant extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("GetWhatYouWant servlet requested: {}", Utils.getRequestString(request));
-        Utils.logRawRequest(request, log);
+        Utils.logAllParameters(request, log);
 
         try {
             processRequest(request, response);
