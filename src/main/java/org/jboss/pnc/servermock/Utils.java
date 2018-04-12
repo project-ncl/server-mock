@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 public class Utils {
 
     public static String getRequestString(HttpServletRequest request) {
-        return request.getRequestURL() + request.getQueryString();
+        String queryString = request.getQueryString();
+        return request.getRequestURL() + (queryString != null ? "?" + queryString : "");
     }
 }
