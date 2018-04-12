@@ -36,7 +36,7 @@ public class Welcome extends HttpServlet {
     Logger log = LoggerFactory.getLogger(Welcome.class);
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("Welcome servlet requested.");
         PrintWriter out = response.getWriter();
         out.print("Welcome to the Machine!");

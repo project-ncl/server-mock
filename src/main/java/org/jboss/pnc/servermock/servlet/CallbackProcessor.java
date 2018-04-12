@@ -52,30 +52,45 @@ public class CallbackProcessor {
         instance().executorService.schedule(() -> {
             CloseableHttpClient httpclient = HttpClients.createDefault();
             try {
+                log.info("Calling back: " + callbackUrl);
                 String responseBody = httpclient.execute(request, getStringResponseHandler(callbackUrl));
                 log.info("Callback response for " + callbackUrl + " received: " + responseBody);
             } catch (IOException e) {
-                throw new RuntimeException("Cannot execute callback.", e);
+                log.error("Callback failed.", e);
+            } finally {
+                try {
+                    httpclient.close();
+                } catch (IOException e) {
+                    log.error("Cannot close http client.");
+                }
             }
         }, callbackDelayMillis, TimeUnit.MILLISECONDS);
     }
 
     private void request(String callbackUrl, String callbackData) throws RuntimeException {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
-            CloseableHttpClient httpclient = HttpClients.createDefault();
             String responseBody;
             if (callbackData != null) {
                 HttpPost httpPost = new HttpPost(callbackUrl);
                 HttpEntity entity = new ByteArrayEntity(callbackData.getBytes());
                 httpPost.setEntity(entity);
+                log.info("Calling back: " + callbackUrl);
                 responseBody = httpclient.execute(httpPost, getStringResponseHandler(callbackUrl));
             } else {
                 HttpGet httpGet = new HttpGet(callbackUrl);
+                log.info("Calling back: " + callbackUrl);
                 responseBody = httpclient.execute(httpGet, getStringResponseHandler(callbackUrl));
             }
             log.info("Callback response for " + callbackUrl + " received: " + responseBody);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("Callback failed.", e);
+        } finally {
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                log.error("Cannot close http client.");
+            }
         }
 
     }
