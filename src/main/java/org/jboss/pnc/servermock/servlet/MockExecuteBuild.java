@@ -68,6 +68,8 @@ public class MockExecuteBuild extends HttpServlet {
         }
 
         response.setStatus(200);
+        String responseMessage = "{ \"content\": { \"pushUpdatesUrl\": \"http://foo.bar.com/abc\", \"id\" : \"123\" }}";
+        response.getWriter().print(responseMessage);
     }
 
     private String getAuthHeader() {
